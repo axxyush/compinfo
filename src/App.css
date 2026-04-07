@@ -1,0 +1,135 @@
+/* CompInfo — warm theme (CASet @ UB) */
+
+:root {
+  --compinfo-primary: #c45c10;
+  --compinfo-accent: #f5a623;
+  --compinfo-page-bg: #fffbf2;
+  --compinfo-navbar: #1a1a1a;
+}
+
+body {
+  background-color: var(--compinfo-page-bg);
+}
+
+.compinfo-main {
+  min-height: calc(100vh - 56px);
+}
+
+.compinfo-navbar {
+  background-color: var(--compinfo-navbar) !important;
+}
+
+.compinfo-brand {
+  color: var(--compinfo-accent) !important;
+  letter-spacing: 0.02em;
+}
+
+.compinfo-nav-active {
+  color: var(--compinfo-accent) !important;
+  font-weight: 600;
+}
+
+.compinfo-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.compinfo-navbar .nav-link:hover {
+  color: #fff;
+}
+
+.compinfo-search {
+  min-width: 180px;
+  max-width: 280px;
+}
+
+.asset-card {
+  border: 1px solid rgba(212, 160, 84, 0.4);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(196, 92, 16, 0.08);
+}
+
+.btn-primary {
+  --bs-btn-bg: var(--compinfo-primary);
+  --bs-btn-border-color: var(--compinfo-primary);
+  --bs-btn-hover-bg: #a34d0d;
+  --bs-btn-hover-border-color: #a34d0d;
+  --bs-btn-focus-shadow-rgb: 196, 92, 16;
+  --bs-btn-active-bg: #8f440b;
+  --bs-btn-active-border-color: #8f440b;
+}
+
+.text-compinfo-primary {
+  color: var(--compinfo-primary) !important;
+}
+
+.compinfo-link {
+  color: var(--compinfo-primary);
+}
+
+.compinfo-link:hover {
+  color: #a34d0d;
+}
+
+.compinfo-pill {
+  background: rgba(196, 92, 16, 0.12);
+  color: #5c2f08;
+  border: 1px solid rgba(212, 160, 84, 0.45);
+  font-weight: 500;
+}
+
+.compinfo-dropzone {
+  background: rgba(245, 166, 35, 0.06);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.compinfo-dropzone:hover {
+  background: rgba(245, 166, 35, 0.12);
+}
+
+/* Timeline */
+.timeline-wrap {
+  position: relative;
+}
+
+.timeline-list {
+  padding-left: 0;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-left: 2px solid rgba(196, 92, 16, 0.25);
+  margin-left: 0.5rem;
+}
+
+.timeline-item:last-child {
+  border-left-color: transparent;
+  padding-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -0.4rem;
+  top: 0.15rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: var(--compinfo-accent);
+  border: 2px solid var(--compinfo-primary);
+}
+
+.timeline-body {
+  margin-top: -0.1rem;
+}
+
+.badge-imported {
+  background-color: #6f42c1;
+  color: #fff;
+}
+
+.age-alert-icon {
+  display: inline-flex;
+  align-items: center;
+}

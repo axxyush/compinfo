@@ -204,13 +204,3 @@ Find your IP with `ipconfig` (Windows) or `ifconfig` (Mac/Linux).
 ## Author
 
 Ayush Srivastava — Student Assistant, CASet, University at Buffalo
-
-````
-
-Copy that and save it as `README.md` in the root of your project, then:
-
-```bash
-git add README.md
-git commit -m "add README"
-git push origin main
-````

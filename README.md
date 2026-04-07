@@ -1,70 +1,216 @@
-# Getting Started with Create React App
+# CompInfo
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Internal IT asset management tool built for CASet (CAS Educational Technology)
+at the University at Buffalo. Tracks hardware assets, rename history, device
+status, and generates custom spreadsheet exports.
 
-## Available Scripts
+Built with MongoDB, Express.js, React, and Node.js (MERN stack).
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## What It Does
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Track every device by serial number — computers, laptops, monitors
+- Full rename history per machine (who it was, what it became, when)
+- Search by serial number, current name, old names, model, or manufacturer
+- Filter assets by status, manufacturer, type, and age
+- Import directly from Excel — handles multiple rows per serial number automatically
+- Generate custom spreadsheets from a list of serial numbers
+- Filter and export any subset of your inventory to Excel
+- Activity log of every change made
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Layer        | Technology          |
+| ------------ | ------------------- |
+| Frontend     | React 18, Bootstrap |
+| Backend      | Node.js, Express.js |
+| Database     | MongoDB (local)     |
+| File parsing | SheetJS (xlsx)      |
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Local Setup
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Node.js 18+
+- MongoDB running locally on port 27017
+- npm
 
-### `npm run eject`
+### 1. Clone the repo
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+git clone https://github.com/axxyush/compinfo.git
+cd compinfo
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 2. Install frontend dependencies
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm install
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3. Install backend dependencies
 
-## Learn More
+```bash
+cd backend
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 4. Create backend environment file
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Create a file at `backend/.env`:
 
-### Code Splitting
+```
+PORT=5001
+MONGO_URI=mongodb://localhost:27017/compinfo
+CLIENT_URL=http://localhost:3000
+MAX_UPLOAD_MB=50
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 5. Start MongoDB
 
-### Analyzing the Bundle Size
+```bash
+mongod
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 6. Start the backend
 
-### Making a Progressive Web App
+```bash
+cd backend
+npm run dev
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+You should see:
 
-### Advanced Configuration
+```
+MongoDB connected
+Server running on port 5001
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 7. Start the frontend
 
-### Deployment
+Open a new terminal from the project root:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+```bash
+npm start
+```
 
-### `npm run build` fails to minify
+App runs at `http://localhost:3000`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+## Seeding Demo Data
+
+To populate the database with 20 sample assets for testing:
+
+```bash
+cd backend
+npm run seed
+```
+
+This clears existing data and inserts realistic demo assets.
+
+---
+
+## Importing Real Data
+
+Your spreadsheet must have these exact column headers:
+
+```
+Serial Number | Current Name | Renamed From | Renamed To | Date | Status | Manufacture | Model | Type
+```
+
+1. Go to `http://localhost:3000/import`
+2. Upload your `.xlsx` file
+3. Review the preview — new assets and conflicts shown separately
+4. Click Confirm to import
+
+The importer automatically:
+
+- Groups multiple rows per serial number into one asset
+- Builds rename history from Renamed From / Renamed To columns
+- Maps Redeploy status → Ready to Deploy
+- Maps Renamed status → Active
+
+---
+
+## Pages
+
+| Route                   | Description                                        |
+| ----------------------- | -------------------------------------------------- |
+| `/dashboard`            | Stats overview, age alerts, recent activity        |
+| `/assets`               | Full asset list with search and filters            |
+| `/assets/:serialNumber` | Full detail, rename history, edit, Lansweeper link |
+| `/assets/new`           | Add a single asset manually                        |
+| `/import`               | Import from Excel spreadsheet                      |
+| `/generate`             | Paste serial numbers → download custom spreadsheet |
+| `/filter`               | Query your inventory → download filtered export    |
+| `/activity`             | Full log of every change                           |
+
+---
+
+## Deployment (Work Computer)
+
+To run on a shared work computer so others on the UB network can access it:
+
+### Install PM2
+
+```bash
+npm install -g pm2
+```
+
+### Build the frontend
+
+```bash
+npm run build
+```
+
+### Start backend permanently with PM2
+
+```bash
+cd backend
+pm2 start server.js --name compinfo-backend
+pm2 save
+pm2 startup
+```
+
+### Access
+
+Anyone on the UB network can open the app at:
+
+```
+http://<your-work-computer-ip>:5001
+```
+
+Find your IP with `ipconfig` (Windows) or `ifconfig` (Mac/Linux).
+
+---
+
+## Notes
+
+- Data is stored locally in MongoDB — never leaves the UB network
+- No authentication currently — intended for internal CASet use only
+- Purchase date is not in the spreadsheet and must be added manually
+  per asset via the Edit button on the asset detail page
+- Lansweeper integration: each asset page links directly to
+  https://lanswp-cast.acsu.buffalo.edu/quicksearch.aspx?q=<serial>
+
+---
+
+## Author
+
+Ayush Srivastava — Student Assistant, CASet, University at Buffalo
+
+````
+
+Copy that and save it as `README.md` in the root of your project, then:
+
+```bash
+git add README.md
+git commit -m "add README"
+git push origin main
+````
